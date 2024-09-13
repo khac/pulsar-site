@@ -19,12 +19,11 @@ import shutil
 import tarfile
 import tempfile
 from pathlib import Path
-
-import requests
 import semver
 
 from command import find_command, run
 from constant import site_path
+from security import safe_requests
 
 
 def execute(version: str):
@@ -36,7 +35,7 @@ def execute(version: str):
     with tempfile.TemporaryDirectory() as cwd:
         v = f"{ver.major}.{ver.minor}.{ver.patch}"
         remote = f'https://archive.apache.org/dist/pulsar/pulsar-{v}/apache-pulsar-{v}-src.tar.gz'
-        resp = requests.get(remote, stream=True)
+        resp = safe_requests.get(remote, stream=True)
         assert resp.status_code == 200
         print(f'Download source code from {remote}')
         f = tarfile.open(fileobj=resp.raw, mode='r|gz')
