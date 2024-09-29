@@ -36,7 +36,7 @@ def execute(version: str):
     with tempfile.TemporaryDirectory() as cwd:
         v = f"{ver.major}.{ver.minor}.{ver.patch}"
         remote = f'https://archive.apache.org/dist/pulsar/pulsar-{v}/apache-pulsar-{v}-src.tar.gz'
-        resp = requests.get(remote, stream=True)
+        resp = requests.get(remote, stream=True, timeout=60)
         assert resp.status_code == 200
         print(f'Download source code from {remote}')
         f = tarfile.open(fileobj=resp.raw, mode='r|gz')
