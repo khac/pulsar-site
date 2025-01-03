@@ -29,7 +29,7 @@ def execute(version: str):
     doxygen = find_command('doxygen', msg="doxygen is required")
     ver = semver.VersionInfo.parse(version)
 
-    resp = requests.get('https://raw.githubusercontent.com/apache/pulsar-client-cpp/main/Doxyfile')
+    resp = requests.get('https://raw.githubusercontent.com/apache/pulsar-client-cpp/main/Doxyfile', timeout=60)
     assert resp.status_code == 200
     config = resp.text
     config += f"\nOUTPUT_DIRECTORY={site_path()}/static/api/cpp\n"
