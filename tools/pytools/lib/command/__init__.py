@@ -18,6 +18,7 @@
 import sys
 from subprocess import PIPE, Popen
 from typing import Optional, Any, TextIO, Set
+from security import safe_command
 
 
 def run(
@@ -31,7 +32,7 @@ def run(
     if verbose:
         print(f"$ {' '.join(args)}")
 
-    p = Popen(args, **kwargs)
+    p = safe_command.run(Popen, args, **kwargs)
     code = p.wait()
     codes = codes or {0}
     if code not in codes:
